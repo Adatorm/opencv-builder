@@ -168,7 +168,7 @@ jobs:
           # target triple.
           asset_name: artifact-osx
           # The path to the file you want to upload.
-          asset_path: export_artifacts/opencv-${{ steps.version.outputs.version }}-osx.zip
+          asset_path: export_artifacts/opencv-${{ inputs.ref }}-osx.zip
           # probably you will need to change it, but most likely you are
           # uploading a binary file
           asset_content_type: application/zip
@@ -180,7 +180,7 @@ jobs:
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_name: artifact-win
-          asset_path: export_artifacts/opencv-${{ steps.version.outputs.version }}-win.zip
+          asset_path: export_artifacts/opencv-${{ inputs.ref }}-win.zip
           asset_content_type: application/zip
       
       - name: Upload linux artifact
@@ -190,7 +190,7 @@ jobs:
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_name: artifact-linux
-          asset_path: export_artifacts/opencv-${{ steps.version.outputs.version }}-linux.zip
+          asset_path: export_artifacts/opencv-${{ inputs.ref }}-linux.zip
           asset_content_type: application/zip
       
       - name: Upload ios artifact
@@ -200,5 +200,5 @@ jobs:
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_name: artifact-ios
-          asset_path: export_artifacts/opencv-${{ steps.version.outputs.version }}-ios.zip
+          asset_path: export_artifacts/opencv-${{ inputs.ref }}-ios.zip
           asset_content_type: application/zip

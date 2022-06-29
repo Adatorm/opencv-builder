@@ -1,0 +1,171 @@
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch, tag or SHA to build.'
+        required: true
+        default: ''
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - name: "Windows"
+            os: windows-latest
+            extension: ".exe"
+            build_target: "ALL_BUILD"
+            release_path: "build/Release"
+            platform: "win_x86_64"
+
+          - name: "Linux"
+            os: ubuntu-latest
+            extension: ""
+            build_target: "all"
+            release_path: "build"
+            platform: "linux_x86_64"
+
+          - name: "macOS"
+            os: macos-latest
+            extension: ""
+            build_target: "all"
+            release_path: "build"
+            platform: "osx_x86_64"
+          
+          # - name: "android"
+          #   os: ubuntu-latest
+          #   extension: ""
+          #   build_target: all
+          #   release_path: build
+          #   platform: "android"
+          
+          - name: ios
+            os: macos-latest
+            extension: ""
+            build_target: all
+            release_path: build
+            platform: "ios"
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+    steps: 
+
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Checkout opencv
+        uses: actions/checkout@v3
+        with:
+          name: opencv/opencv
+          ref: inputs.ref
+          path: opencv
+      
+      - name: Configure Default
+        if: matrix.os != ios
+        run: ./configure.sh
+      
+      - name: Build ios
+        if: matrix.os == ios
+        run: ./build_ios.sh
+      
+      - name: Build Default
+        run: make
+        working-directory: build
+
+      - name: move build 
+        run: mv opencv/build export/opencv
+        if: matrix.is != ios
+      
+      - name: rename ios framework
+        if: matrix.os == ios
+        run: mv opencv/ios/opencv2.framework export/opencv
+
+      - name: zip file
+        run: 7z a -r opencv-${{ inputs.ref }}-${{ matrix.platform }}.zip export/opencv
+
+      - name: list dependencies 1
+        run: ls
+
+      - name: list dependencies 2
+        run: ls export
+      
+      # - name: unzip file
+      #   run: |
+      #     7z x dep.zip -odep_out
+      - name:
+        run: ./my_failer_command
+      
+      - uses: actions/upload-artifact@v3
+        name: upload artifacts
+        with:
+          name: artifact-${{ matrix.platform }}
+          path: ${{ matrix.release_path }}/TestCpp${{ matrix.extension }}
+
+  
+  create_release:
+    needs: build
+    name: Create release
+    runs-on: ubuntu-latest
+    # Note this. We are going to use that in further jobs.
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: build version app
+        run: c++ vertest.cpp -o ver
+
+      - name: fetch version
+        id: version
+        run: echo ::set-output name=version::$(./ver)
+      
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
+          body_path: CHANGELOG.md
+
+  
+  update_release:
+    name: update_release
+    needs: create_release # we need to know the upload URL
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout of cource
+      - name: Checkout code
+        uses: actions/checkout@v3
+      # ... whatever build and packaging steps you need here
+      # and finally do an upload!
+      - name: download_artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: export_artifacts
+      
+      - name: Display artifacts
+        run: ls -R
+        working-directory: export_artifacts
+
+      # - name: Upload release assets
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ needs.create_release.outputs.upload_url }}
+      #     # This is how it will be named on the release page. Put whatever name
+      #     # you like, remember that they need to be different for each platform.
+      #     # You can choose any build matrix parameters. For Rust I use the
+      #     # target triple.
+      #     asset_name: TestCpp_${{ matrix.name }}${{ matrix.extension }}
+      #     # The path to the file you want to upload.
+      #     asset_path: export_${{ matrix.name }}/TestCpp${{ matrix.extension }}
+      #     # probably you will need to change it, but most likely you are
+      #     # uploading a binary file
+      #     asset_content_type: application/octet-stream

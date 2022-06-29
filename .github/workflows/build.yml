@@ -76,12 +76,16 @@ jobs:
         run: cmake --build ./build
 
       - name: move build 
-        run: mv build export/opencv
+        run: |
+          mkdir export
+          mv build export/opencv
         if: ${{ matrix.os != 'ios' }}
       
       - name: rename ios framework
         if: ${{ matrix.os == 'ios' }}
-        run: mv opencv/ios/opencv2.framework export/opencv
+        run: |
+          mkdir export
+          mv opencv/ios/opencv2.framework export/opencv
 
       - name: zip file
         run: 7z a -r opencv-${{ inputs.ref }}-${{ matrix.platform }}.zip export/opencv

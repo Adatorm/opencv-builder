@@ -60,7 +60,6 @@ jobs:
           path: opencv
       
       - name: Configure Default
-        if: 
         if: ${{ matrix.os != 'ios' }}
         run: ./configure.sh
       

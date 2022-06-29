@@ -166,9 +166,9 @@ jobs:
           # you like, remember that they need to be different for each platform.
           # You can choose any build matrix parameters. For Rust I use the
           # target triple.
-          asset_name: artifact-osx
+          asset_name: opencv-osx.zip
           # The path to the file you want to upload.
-          asset_path: export_artifacts/opencv-${{ inputs.ref }}-osx.zip
+          asset_path: export_artifacts/artifact-osx/opencv-${{ inputs.ref }}-osx.zip
           # probably you will need to change it, but most likely you are
           # uploading a binary file
           asset_content_type: application/zip
@@ -179,8 +179,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_name: artifact-win
-          asset_path: export_artifacts/opencv-${{ inputs.ref }}-win.zip
+          asset_name: opencv-win.zip
+          asset_path: export_artifacts/artifact-win/opencv-${{ inputs.ref }}-win.zip
           asset_content_type: application/zip
       
       - name: Upload linux artifact
@@ -189,8 +189,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_name: artifact-linux
-          asset_path: export_artifacts/opencv-${{ inputs.ref }}-linux.zip
+          asset_name: opencv-linux.zip
+          asset_path: export_artifacts/artifact-linux/opencv-${{ inputs.ref }}-linux.zip
           asset_content_type: application/zip
       
       - name: Upload ios artifact
@@ -199,6 +199,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_name: artifact-ios
-          asset_path: export_artifacts/opencv-${{ inputs.ref }}-ios.zip
+          asset_name: opencv-ios.zip
+          asset_path: export_artifacts/artifact-ios/opencv-${{ inputs.ref }}-ios.zip
           asset_content_type: application/zip

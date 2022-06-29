@@ -60,11 +60,12 @@ jobs:
           path: opencv
       
       - name: Configure Default
-        if: matrix.os != ios
+        if: 
+        if: ${{ matrix.os != 'ios' }}
         run: ./configure.sh
       
       - name: Build ios
-        if: matrix.os == ios
+        if: ${{ matrix.os == 'ios' }}
         run: ./build_ios.sh
       
       - name: Build Default
@@ -73,10 +74,10 @@ jobs:
 
       - name: move build 
         run: mv opencv/build export/opencv
-        if: matrix.is != ios
+        if: ${{ matrix.os != 'ios' }}
       
       - name: rename ios framework
-        if: matrix.os == ios
+        if: ${{ matrix.os == 'ios' }}
         run: mv opencv/ios/opencv2.framework export/opencv
 
       - name: zip file

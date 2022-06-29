@@ -68,6 +68,9 @@ jobs:
 
       - name: list dir
         run: ls
+
+      - name: list dir 2
+        run: ls opencv
       
       - name: Build Default
         run: cmake --build ./build

@@ -15,21 +15,21 @@ jobs:
             extension: ".exe"
             build_target: "ALL_BUILD"
             release_path: "build/Release"
-            platform: "win_x86_64"
+            platform: "win"
 
           - name: "Linux"
             os: ubuntu-latest
             extension: ""
             build_target: "all"
             release_path: "build"
-            platform: "linux_x86_64"
+            platform: "linux"
 
           - name: "macOS"
             os: macos-latest
             extension: ""
             build_target: "all"
             release_path: "build"
-            platform: "osx_x86_64"
+            platform: "osx"
           
           # - name: "android"
           #   os: ubuntu-latest
@@ -99,14 +99,12 @@ jobs:
       # - name: unzip file
       #   run: |
       #     7z x dep.zip -odep_out
-      - name:
-        run: ./my_failer_command
       
       - uses: actions/upload-artifact@v3
         name: upload artifacts
         with:
           name: artifact-${{ matrix.platform }}
-          path: ${{ matrix.release_path }}/TestCpp${{ matrix.extension }}
+          path: opencv-${{ inputs.ref }}-${{ matrix.platform }}.zip
 
   
   create_release:
@@ -120,13 +118,10 @@ jobs:
       
       - name: Checkout
         uses: actions/checkout@v3
-      
-      - name: build version app
-        run: c++ vertest.cpp -o ver
 
       - name: fetch version
         id: version
-        run: echo ::set-output name=version::$(./ver)
+        run: echo ::set-output name=version::${{ inputs.ref }}
       
       - name: Create release
         id: create_release
@@ -161,19 +156,49 @@ jobs:
         run: ls -R
         working-directory: export_artifacts
 
-      # - name: Upload release assets
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ needs.create_release.outputs.upload_url }}
-      #     # This is how it will be named on the release page. Put whatever name
-      #     # you like, remember that they need to be different for each platform.
-      #     # You can choose any build matrix parameters. For Rust I use the
-      #     # target triple.
-      #     asset_name: TestCpp_${{ matrix.name }}${{ matrix.extension }}
-      #     # The path to the file you want to upload.
-      #     asset_path: export_${{ matrix.name }}/TestCpp${{ matrix.extension }}
-      #     # probably you will need to change it, but most likely you are
-      #     # uploading a binary file
-      #     asset_content_type: application/octet-stream
+      - name: Upload osx artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          # This is how it will be named on the release page. Put whatever name
+          # you like, remember that they need to be different for each platform.
+          # You can choose any build matrix parameters. For Rust I use the
+          # target triple.
+          asset_name: artifact-osx
+          # The path to the file you want to upload.
+          asset_path: export_artifacts
+          # probably you will need to change it, but most likely you are
+          # uploading a binary file
+          asset_content_type: application/zip
+      
+      - name: Upload win artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_name: artifact-win
+          asset_path: export_artifacts
+          asset_content_type: application/zip
+      
+      - name: Upload linux artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_name: artifact-linux
+          asset_path: export_artifacts
+          asset_content_type: application/zip
+      
+      - name: Upload ios artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_name: artifact-ios
+          asset_path: export_artifacts
+          asset_content_type: application/zip

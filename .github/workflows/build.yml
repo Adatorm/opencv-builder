@@ -65,6 +65,9 @@ jobs:
       - name: Build ios
         if: ${{ matrix.os == 'ios' }}
         run: ./build_ios.sh
+
+      - name: list dir
+        run: ls
       
       - name: Build Default
         run: cmake --build ./build

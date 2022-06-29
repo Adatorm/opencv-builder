@@ -67,8 +67,7 @@ jobs:
         run: ./build_ios.sh
       
       - name: Build Default
-        run: make
-        working-directory: build
+        run: build/make
 
       - name: move build 
         run: mv opencv/build export/opencv

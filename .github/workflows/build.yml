@@ -76,7 +76,7 @@ jobs:
         run: cmake --build ./build
 
       - name: move build 
-        run: mv opencv/build export/opencv
+        run: mv build export/opencv
         if: ${{ matrix.os != 'ios' }}
       
       - name: rename ios framework

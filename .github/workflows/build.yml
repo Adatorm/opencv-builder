@@ -5,6 +5,9 @@ on:
         description: 'The branch, tag or SHA to build.'
         required: true
         default: ''
+      library_name:
+        description: "lib name"
+        required: true
 jobs:
   build:
     strategy:

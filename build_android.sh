@@ -1,0 +1,1 @@
+python3 platforms/android/build_sdk.py android_sdk --sdk_path /Users/guneracet/Library/Android/sdk --config ndk-22.config.py

@@ -81,6 +81,7 @@ jobs:
         run: ls opencv
       
       - name: Build Default
+        if: ${{ matrix.os != 'ios' }}
         run: cmake --build ./build
 
       - name: move build 

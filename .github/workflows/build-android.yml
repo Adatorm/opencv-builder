@@ -1,0 +1,35 @@
+name: build opencv android sdk
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch, tag or SHA to build.'
+        required: true
+
+jobs:
+  build:
+
+
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Checkout opencv
+        uses: actions/checkout@v3
+        with:
+          repository: opencv/opencv
+          ref: ${{ inputs.ref }}
+          path: opencv
+      
+      - name: Build android sdk
+        run: ./build_android.sh
+
+      - name: list dir
+        run: ls
+
+      - name: list dir 2
+        run: ls opencv
+      
+      - name: list dir 3
+        run: ls opencv/android_sdk

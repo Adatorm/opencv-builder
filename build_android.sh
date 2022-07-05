@@ -1,1 +1,1 @@
-python3 opencv/platforms/android/build_sdk.py android_sdk --sdk_path /usr/local/lib/android/sdk --config ndk-22.config.py
+python3 opencv/platforms/android/build_sdk.py android_sdk --sdk_path /usr/local/lib/android/sdk --config ndk-22.config.py  --without dnn --without gapi --without highgui --without imgcodecs --without ml --without objdetect --without photo --without stitching --without ts --without videoio --without world --disable JPEG --disable WEBP --disable PNG --disable TIFF --disable QUIRC --disable ZLIB --disable PROTOBUF

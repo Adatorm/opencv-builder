@@ -37,5 +37,17 @@ jobs:
       - name: list dir 2
         run: ls opencv
       
-      - name: list dir 3
-        run: ls opencv/android_sdk
+      - name: rename android
+        run: |
+          mkdir export
+          mv android_sdk export/opencv
+
+      - name: zip file
+        run: 7z a -r opencv-${{ inputs.ref }}-android.zip ./export/opencv/
+
+      
+      - uses: actions/upload-artifact@v3
+        name: upload artifacts
+        with:
+          name: artifact-android
+          path: opencv-${{ inputs.ref }}-android.zip

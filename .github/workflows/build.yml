@@ -1,18 +1,11 @@
-name: build opencv
+name: build opencv library
 on:
   workflow_dispatch:
     inputs:
       ref:
-        description: 'The branch, tag or SHA to build.'
+        description: 'OpenCV version(branch, tag or SHA)'
         required: true
         default: ''
-      library:
-        type: choice
-        description: select library
-        options:
-        - foo
-        - bar
-        - baz
 jobs:
   build:
     strategy:
@@ -24,6 +17,7 @@ jobs:
             build_target: "ALL_BUILD"
             release_path: "build/Release"
             platform: "win"
+            type: "desktop"
 
           - name: "Linux"
             os: ubuntu-latest
@@ -31,6 +25,7 @@ jobs:
             build_target: "all"
             release_path: "build"
             platform: "linux"
+            type: "desktop"
 
           - name: "macOS"
             os: macos-latest
@@ -38,13 +33,15 @@ jobs:
             build_target: "all"
             release_path: "build"
             platform: "osx"
+            type: "desktop"
           
-          # - name: "android"
-          #   os: ubuntu-latest
-          #   extension: ""
-          #   build_target: all
-          #   release_path: build
-          #   platform: "android"
+          - name: "android"
+            os: ubuntu-latest
+            extension: ""
+            build_target: all
+            release_path: build
+            platform: "android"
+            type: "mobile"
           
           - name: ios
             os: macos-latest
@@ -52,6 +49,7 @@ jobs:
             build_target: all
             release_path: build
             platform: "ios"
+            type: "mobile"
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
@@ -67,12 +65,12 @@ jobs:
           path: opencv
       
       - name: Configure Default
-        if: ${{ matrix.os != 'ios' }}
+        if: ${{ (matrix.type != 'mobile') }}
         run: cmake -S ./opencv -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=install -B ./build -C opencv_options.txt
       
-      - name: Build ios
-        if: ${{ matrix.os == 'ios' }}
-        run: ./build_ios.sh
+      - name: Build Mobile
+        if: ${{ matrix.type == 'mobile' }}
+        run: ./build_${{ matrix.platform}}.sh
 
       - name: list dir
         run: ls
@@ -80,24 +78,29 @@ jobs:
       - name: list dir 2
         run: ls opencv
       
-      - name: Build Default
-        if: ${{ matrix.os != 'ios' }}
+      - name: Build Desktop
         run: cmake --build ./build
 
       - name: move build 
         run: |
           mkdir export
           mv build export/opencv
-        if: ${{ matrix.os != 'ios' }}
+        if: ${{ matrix.type == 'desktop' }}
       
       - name: rename ios framework
-        if: ${{ matrix.os == 'ios' }}
+        if: ${{ matrix.platform == 'ios' }}
         run: |
           mkdir export
-          mv opencv/ios/opencv2.framework export/opencv
+          mv ios/opencv2.framework export/opencv
+      
+      - name: rename android sdk
+        if: ${{ matrix.platform == 'android' }}
+        run: |
+          mkdir export
+          mv android_sdk export/opencv
 
       - name: zip file
-        run: 7z a -r opencv-${{ inputs.ref }}-${{ matrix.platform }}.zip ./export/opencv/
+        run: 7z a -r opencv-${{ inputs.ref }}-${{ matrix.platform }}.zip ./export/opencv
 
       - name: list dependencies 1
         run: ls

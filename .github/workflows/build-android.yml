@@ -4,15 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: 'The branch, tag or SHA to build.'
-        required: true
-      ref:
         type: choice
         description: select opencv version
         options:
-          - "4.5.5"
-          - "4.6.0"
-          - "3.4.5"
+          - 4.5.5
 
 jobs:
   build:

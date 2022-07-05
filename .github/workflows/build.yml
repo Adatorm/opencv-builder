@@ -95,7 +95,7 @@ jobs:
           mv opencv/ios/opencv2.framework export/opencv
 
       - name: zip file
-        run: 7z a -r opencv-${{ inputs.ref }}-${{ matrix.platform }}.zip export/opencv
+        run: 7z a -r opencv-${{ inputs.ref }}-${{ matrix.platform }}.zip ./export/opencv
 
       - name: list dependencies 1
         run: ls

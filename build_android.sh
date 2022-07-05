@@ -1,1 +1,1 @@
-python3 opencv/platforms/android/build_sdk.py android_sdk --sdk_path /Users/guneracet/Library/Android/sdk --config ndk-22.config.py
+python3 opencv/platforms/android/build_sdk.py android_sdks --config ndk-22.config.py

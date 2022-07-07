@@ -50,7 +50,7 @@ jobs:
       - name: move build 
         run: |
           mkdir export
-          mv build/install export/opencv
+          mv build export/opencv
       
 
       - name: zip file

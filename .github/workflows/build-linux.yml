@@ -47,7 +47,7 @@ jobs:
       - name: move build 
         run: |
           mkdir export
-          mv build export/opencv
+          mv install export/opencv
       
 
       - name: zip file
@@ -57,5 +57,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         name: upload artifacts
         with:
-          name: artifact-linux
+          name: artifact-linux-install
           path: opencv-${{ inputs.ref }}-linux.zip

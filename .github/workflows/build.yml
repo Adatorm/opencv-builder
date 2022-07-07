@@ -215,3 +215,13 @@ jobs:
           asset_name: opencv-ios.zip
           asset_path: export_artifacts/artifact-ios/opencv-${{ inputs.ref }}-ios.zip
           asset_content_type: application/zip
+      
+      - name: Upload android artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_name: opencv-android.zip
+          asset_path: export_artifacts/artifact-android/opencv-${{ inputs.ref }}-android.zip
+          asset_content_type: application/zip

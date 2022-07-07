@@ -28,7 +28,7 @@ jobs:
         run: cmake -S ./opencv -D CMAKE_BUILD_TYPE=Release -B ./build -C opencv_options.txt
       
       - name: build opencv
-        run cmake --build ./build --config Release
+        run: cmake --build ./build --config Release
 
       - name: list dir
         run: ls

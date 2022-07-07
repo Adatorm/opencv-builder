@@ -25,10 +25,15 @@ jobs:
           path: opencv
       
       - name: configure opencv
-        run: cmake -S ./opencv -D CMAKE_BUILD_TYPE=Release -B ./build -C opencv_options.txt
+        run: cmake -S ./opencv -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=./install -B ./build -C opencv_options.txt
       
       - name: build opencv
         run: cmake --build ./build --config Release
+
+      - name: install opencv
+        run: make install
+        working-directory: ./build
+      
 
       - name: list dir
         run: ls
@@ -36,10 +41,16 @@ jobs:
       - name: list dir 2
         run: ls opencv
 
+      - name: list dir 3
+        run: ls build
+      
+      - name: list dir 4
+        run: ls build/install
+
       - name: move build 
         run: |
           mkdir export
-          mv build export/opencv
+          mv build/install export/opencv
       
 
       - name: zip file
@@ -49,5 +60,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         name: upload artifacts
         with:
-          name: artifact-android
+          name: artifact-linux
           path: opencv-${{ inputs.ref }}-linux.zip

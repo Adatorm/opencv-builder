@@ -81,20 +81,25 @@ jobs:
       - name: Build Desktop
         if: ${{ matrix.type == 'desktop' }}
         run: cmake --build ./build --config Release
+      
+      - name: Install Desktop
+        if: ${{ matrix.type == 'desktop' }}
+        run: make install
+        working-directory: ./build
 
-      - name: move build 
+      - name: move/rename install desktop
         run: |
           mkdir export
-          mv build export/opencv
+          mv install export/opencv
         if: ${{ matrix.type == 'desktop' }}
       
-      - name: rename ios framework
+      - name: move/rename ios framework
         if: ${{ matrix.platform == 'ios' }}
         run: |
           mkdir export
           mv ios/opencv2.framework export/opencv
       
-      - name: rename android sdk
+      - name: move/rename android sdk
         if: ${{ matrix.platform == 'android' }}
         run: |
           mkdir export

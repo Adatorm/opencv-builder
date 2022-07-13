@@ -84,8 +84,7 @@ jobs:
       
       - name: Install Desktop
         if: ${{ matrix.type == 'desktop' }}
-        run: make install
-        working-directory: ./build
+        run: cmake --build ./build --target install --config Release
 
       - name: move/rename install desktop
         run: |

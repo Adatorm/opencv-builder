@@ -1,1 +1,1 @@
-python3 opencv/platforms/android/build_sdk.py android_sdk --sdk_path /usr/local/lib/android/sdk --modules_list "core imgproc video calib3d features2d flann" --no_samples_build
+python3 opencv/platforms/android/build_sdk.py android_sdk --sdk_path /usr/local/lib/android/sdk --modules_list "core imgproc video calib3d features2d flann openexr" --no_samples_build

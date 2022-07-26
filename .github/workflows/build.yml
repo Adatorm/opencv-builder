@@ -13,40 +13,30 @@ jobs:
         include:
           - name: "Windows"
             os: windows-latest
-            extension: ".exe"
-            build_target: "ALL_BUILD"
             release_path: "build/Release"
             platform: "win"
             type: "desktop"
 
           - name: "Linux"
             os: ubuntu-latest
-            extension: ""
-            build_target: "all"
             release_path: "build"
             platform: "linux"
             type: "desktop"
 
           - name: "macOS"
             os: macos-latest
-            extension: ""
-            build_target: "all"
             release_path: "build"
             platform: "osx"
             type: "desktop"
           
           - name: "android"
             os: ubuntu-latest
-            extension: ""
-            build_target: all
             release_path: build
             platform: "android"
             type: "mobile"
           
           - name: ios
             os: macos-latest
-            extension: ""
-            build_target: all
             release_path: build
             platform: "ios"
             type: "mobile"

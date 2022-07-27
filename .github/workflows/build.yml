@@ -68,9 +68,9 @@ jobs:
       - name: list dir 2
         run: ls opencv
       
-      - name: Build Desktop
-        if: ${{ matrix.type == 'desktop' }}
-        run: cmake --build ./build --config Release
+      # - name: Build Desktop
+      #   if: ${{ matrix.type == 'desktop' }}
+      #   run: cmake --build ./build --config Release
       
       - name: Install Desktop
         if: ${{ matrix.type == 'desktop' }}

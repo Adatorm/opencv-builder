@@ -1,0 +1,61 @@
+name: build opencv linux
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        type: choice
+        description: select opencv version
+        options:
+          - 4.5.5
+
+jobs:
+  build:
+
+
+    runs-on: windows-latest
+    steps: 
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Checkout opencv
+        uses: actions/checkout@v3
+        with:
+          repository: opencv/opencv
+          ref: ${{ inputs.ref }}
+          path: opencv
+      
+      - name: configure opencv
+        run: cmake -S ./opencv -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=./install -B ./build -C opencv_options.txt
+      
+      - name: build opencv
+        run: cmake --build ./build --config Release
+
+      - name: install opencv
+        run: make install
+        working-directory: ./build
+      
+
+      - name: list dir
+        run: ls
+
+      - name: list dir 2
+        run: ls opencv
+
+      - name: list dir 3
+        run: ls build
+
+      - name: move build 
+        run: |
+          mkdir export
+          mv install export/opencv
+      
+
+      - name: zip file
+        run: 7z a -r opencv-${{ inputs.ref }}-win.zip ./export/opencv/
+
+      
+      - uses: actions/upload-artifact@v3
+        name: upload artifacts
+        with:
+          name: artifact-win-install
+          path: opencv-${{ inputs.ref }}-win.zip

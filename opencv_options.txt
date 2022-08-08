@@ -18,4 +18,4 @@ set(WITH_QUIRC OFF CACHE BOOL "excludes quirc support?")
 set(BUILD_ZLIB OFF CACHE BOOL "excludes zlib support?")
 set(WITH_PROTOBUF OFF CACHE BOOL "excludes protobuf support?")
 
-option(OPENCV_VS_VERSIONINFO_SKIP_GENERATION "disable windows dll version info")
+option(OPENCV_VS_VERSIONINFO_SKIP "disable windows dll version info")

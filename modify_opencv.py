@@ -8,7 +8,7 @@ class VARS:
     opencv_cmake_module_path = "opencv/cmake/OpenCVModule.cmake"
     target_line_sign = "  # For dynamic link numbering conventions"
     actual_line = "  if(NOT ANDROID)"
-    updated_line = "  if(NOT ANDROID AND WINDOWS AND LINUX)"
+    updated_line = "  if(NOT ANDROID AND LINUX)"
 
 
 

@@ -17,3 +17,5 @@ set(WITH_TIFF OFF CACHE BOOL "excludes tiff support?")
 set(WITH_QUIRC OFF CACHE BOOL "excludes quirc support?")
 set(BUILD_ZLIB OFF CACHE BOOL "excludes zlib support?")
 set(WITH_PROTOBUF OFF CACHE BOOL "excludes protobuf support?")
+
+set(OPENCV_VS_VERSIONINFO_SKIP_GENERATION ON CACHE BOOL "disable windows dll version info?")

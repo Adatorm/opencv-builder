@@ -27,14 +27,13 @@ jobs:
           path: opencv
       
       - name: configure opencv
-        run: cmake -S ./opencv -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=./install -B ./build -C opencv_options.txt
+        run: cmake -S ./opencv -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=install -B ./build -C opencv_options.txt
       
       - name: build opencv
         run: cmake --build ./build --config Release
 
       - name: install opencv
-        run: make install
-        working-directory: ./build
+        run: cmake --build ./build --target install --config Release
       
 
       - name: list dir

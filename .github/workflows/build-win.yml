@@ -1,4 +1,4 @@
-name: build opencv linux
+name: windows build
 on:
   workflow_dispatch:
     inputs:

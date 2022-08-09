@@ -55,6 +55,7 @@ jobs:
           path: opencv
 
       - name: Modify opencv script
+        if: ${{ matrix.type == 'desktop' }}
         run: python3 modify_opencv.py opencv
       
       - name: Configure Default

@@ -22,7 +22,7 @@ class LineModifier:
     
     def create_windows_remove():
         windows_remove = LineModifier()
-        windows_remove.file_path = "cmake/CMakeLists.txt"
+        windows_remove.file_path = "CMakeLists.txt"
         windows_remove.signiture_line_string = "  # Postfix of DLLs:"
         windows_remove.actual_line_string = "  ocv_update(OPENCV_DLLVERSION \"${OPENCV_VERSION_MAJOR}${OPENCV_VERSION_MINOR}${OPENCV_VERSION_PATCH}\")"
         windows_remove.updated_line_string = "  ocv_update(OPENCV_DLLVERSION \"\")"
@@ -66,10 +66,9 @@ def modify_line_helper(lines: list, line_modifier: LineModifier):
                 
                 print("same string! no replacement!: " + line_modifier.updated_line_string + " -> " + line_modifier.updated_line_string)
             else:
-                
                 print("error occured! ")
                 print("not replaced!: " + line_modifier.actual_line_string + " -> " + line_modifier.updated_line_string)
-                return
+                raise ValueError("Source file changed! Check latest opencv version and update this script")
 
     return lines
 

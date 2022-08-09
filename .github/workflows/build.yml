@@ -55,7 +55,7 @@ jobs:
           path: opencv
 
       - name: Modify opencv script
-        run: python3 modify_opencv.py
+        run: python3 modify_opencv.py opencv
       
       - name: Configure Default
         if: ${{ (matrix.type != 'mobile') }}

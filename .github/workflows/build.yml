@@ -36,7 +36,7 @@ jobs:
             type: "mobile"
           
           - name: ios
-            os: macos-latest
+            os: macos-11
             release_path: build
             platform: "ios"
             type: "mobile"

@@ -3,4 +3,4 @@ cmake -S ./opencv \
  -D CMAKE_INSTALL_PREFIX=install \
  -D BUILD_SHARED_LIBS=ON \
  -B ./build \
- -C opencv_options.txt \
+# -C opencv_options.txt \

@@ -1,4 +1,4 @@
-name: build opencv library
+name: build opencv osx
 on:
   workflow_dispatch:
     inputs:

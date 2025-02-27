@@ -36,7 +36,7 @@ jobs:
       
       - name: Configure Default
         if: ${{ (matrix.type != 'mobile') }}
-        run: cmake -S ./opencv -DBUILD_SHARED_LIBS=OFF -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=./install -B ./build -C opencv_options.txt
+        run: cmake -S ./opencv -DBUILD_SHARED_LIBS=ON -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=./install -B ./build -C opencv_options.txt
       
       - name: Build Mobile
         if: ${{ matrix.type == 'mobile' }}

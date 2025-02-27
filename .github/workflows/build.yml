@@ -45,10 +45,10 @@ jobs:
     name: ${{ matrix.name }}
     steps: 
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Checkout opencv
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: opencv/opencv
           ref: ${{ inputs.ref }}
@@ -133,7 +133,7 @@ jobs:
     steps:
       
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: fetch version
         id: version
@@ -160,7 +160,7 @@ jobs:
     steps:
       # checkout of cource
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       # ... whatever build and packaging steps you need here
       # and finally do an upload!
       - name: download_artifacts
